@@ -53,7 +53,7 @@ class Gun():
     def internalUpdate(self,keyState):
         self.canShoot = False
         #timers - the current time - the last time I captured it >= delay
-        print "gun.internal: ", pygame.time.get_ticks() - self.timer, "delay",self.delay
+        #print "gun.internal: ", pygame.time.get_ticks() - self.timer, "delay",self.delay
         if(pygame.time.get_ticks() - self.timer >= self.delay):
             self.canShoot = True #enough time has passed and I can shoot again
             

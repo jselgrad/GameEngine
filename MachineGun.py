@@ -20,7 +20,7 @@ class MachineGun(Gun):
         self.isRapidFire = True
         
     def shoot(self):
-        print "machinegun.shoot", self.canShoot
+        #print "machinegun.shoot", self.canShoot
         if self.canShoot:
             self.timer = pygame.time.get_ticks()
             self.generateBullets()
