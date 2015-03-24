@@ -3,12 +3,13 @@ Created on Feb 27, 2015
 
 @author: SIU853541579
 '''
+import pygame
+import math
 from Player import *
 from Vector2 import *
 from CollisionManager import *
 from Colors import *
 from MachineGun import *
-import pygame
 from sprite_class import *
 
 class ActionPlayer(Player):
@@ -28,6 +29,7 @@ class ActionPlayer(Player):
                                              self.position.y + self.dimensions.y/2),
                                      Vector2(1,1))
         self.facing = Vector2(0,0)
+        self.gunOrigin = Vector2(0,0)
         self.color = Color.cyan
         
         self.sprite = sprite_class("./sprites/spearGuy.png",832,1344,13,21)
@@ -77,12 +79,33 @@ class ActionPlayer(Player):
         self.sprite.load_animation("idle")
     
     def inputAction1(self):
-        print "actionplayer.actionkey1"
-        self.equipedGun.update(Vector2(self.position.x + self.dimensions.x/2,
-                                       self.position.y + self.dimensions.y/2),
-                                       Vector2(1,1), True)
+        #print "actionplayer.actionkey1"
+        self.calculateGunOrigin()
+        
+        self.equipedGun.update(self.gunOrigin,self.facing, True)
         self.equipedGun.shoot()
     #more to come
+    
+        #in our action game, we want to aim at the mouse
+    #so we need the mouse location
+    def calculateAimingVector(self):
+        mousePos = Vector2(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+        midPoint = Vector2(self.position.x + self.dimensions.x/2, 
+                           self.position.y + self.dimensions.y/2)
+        
+        vector = Vector2(mousePos.x - midPoint.x, mousePos.y - midPoint.y)
+        if(vector.x != 0 or vector.y != 0):
+            size = math.sqrt(vector.x**2 + vector.y**2)
+            self.facing.x = vector.x/size
+            self.facing.y = vector.y/size
+            
+    def calculateGunOrigin(self):
+        self.calculateAimingVector() #update aiming vector
+        midPoint = Vector2(self.position.x + self.dimensions.x/2, 
+                           self.position.y + self.dimensions.y/2)
+        self.gunOrigin.x = midPoint.x + (self.facing.x * 75)
+        self.gunOrigin.y = midPoint.y + (self.facing.y * 75)
+    
     
     def handleBoundHit(self, direction):
         #options:
