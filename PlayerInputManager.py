@@ -26,9 +26,9 @@ class PlayerInputManager(object):
         return player
         
     @staticmethod
-    def update(keyboard):
+    def update(keyboard, mouse):
         for input in PlayerInputManager.inputList:
-            input.update(keyboard)
+            input.update(keyboard, mouse)
     
     def __init__(self, params):
         '''

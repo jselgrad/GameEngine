@@ -22,6 +22,7 @@ SCREEN_HEIGHT = 800
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+
 def main():
     myPlayer = PlayerInputManager.buildActionPlayer(pygame.K_UP, 
                                                     pygame.K_DOWN, 
@@ -37,16 +38,17 @@ def main():
         
     while(True):
         screen.fill(Color.black)
-
-        PlayerInputManager.update(pygame.key.get_pressed())
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit(); sys.exit();
+            
+        PlayerInputManager.update(pygame.key.get_pressed(),[])
         #eventually we'll need the collision manager update here as well
         myPlayer.update(screen, [200,200], [SCREEN_WIDTH-200, SCREEN_HEIGHT-200])
         BulletManager.update(screen, [0,0], [SCREEN_WIDTH, SCREEN_HEIGHT])
         msElapsed = clock.tick(30) #SYNC RATE 30 FPS
         pygame.display.update() #SYNC 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit(); sys.exit();
+
 
 
 if __name__ == '__main__':

@@ -27,7 +27,11 @@ class PlayerInputController():
         self.leftPrevInput = False
         self.actionKey1PrevInput = False
     
-
+    '''
+    Process_Key functions
+    Each of these methods are checking if the previous input was a key up state or a key down state
+    If it was a key up state it invokes an init() function for the input key
+    '''
     def ProcessUpKey(self, keyboard):
         if (keyboard[self.upKey] == True):
             if (self.upPrevInput == False):
@@ -68,7 +72,7 @@ class PlayerInputController():
             self.owningPlayer.inputLeftKeyRelease()
             self.leftPrevInput = False
             
-    def update(self, keyboard):
+    def update(self, keyboard, mouse):
         self.ProcessUpKey(keyboard)
             
         self.ProcessDownKey(keyboard)
